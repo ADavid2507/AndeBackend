@@ -112,4 +112,34 @@ public class CursoServiceImpl implements CursoService {
         cursoRepository.delete(curso);
         LOGGER.info("Curso eliminado: " + curso.getIdCurso() + " con nombre: " + curso.getNombre() + "");
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CursoResponseDTO> buscar(
+            String nombre,
+            Long carreraId,
+            Integer ciclo,
+            Boolean conVacantes,
+            pe.edu.upeu.AndeBackend.enums.ModalidadCurso modalidad,
+            String orden,
+            String dir) {
+        LOGGER.info("Buscando cursos con filtros combinados - nombre: '{}', carreraId: '{}', ciclo: '{}', conVacantes: '{}', modalidad: '{}', orden: '{}', dir: '{}'",
+                nombre, carreraId, ciclo, conVacantes, modalidad, orden, dir);
+
+        String campoOrden = (orden != null && !orden.trim().isEmpty()) ? orden.trim().toLowerCase() : "nombre";
+        if (!List.of("nombre", "creditos", "vacantes").contains(campoOrden)) {
+            throw new ReglaNegocioException("Campo de orden no válido: " + orden + ". Campos permitidos: nombre, creditos, vacantes");
+        }
+
+        boolean isDesc = "desc".equalsIgnoreCase(dir);
+        org.springframework.data.domain.Sort sort = isDesc
+                ? org.springframework.data.domain.Sort.by(campoOrden).descending()
+                : org.springframework.data.domain.Sort.by(campoOrden).ascending();
+
+        String nombreFiltro = (nombre != null && !nombre.trim().isEmpty()) ? nombre.trim() : null;
+
+        List<Curso> cursos = cursoRepository.buscarCursos(nombreFiltro, carreraId, ciclo, conVacantes, modalidad, sort);
+        return cursos.stream().map(cursoMapper::toResponse).toList();
+    }
 }
+
