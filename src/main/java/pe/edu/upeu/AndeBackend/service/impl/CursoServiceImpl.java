@@ -43,10 +43,10 @@ public class CursoServiceImpl implements CursoService {
         Carrera carrera = carreraRepository.findById(request.getCarreraId()).orElseThrow(
                 () -> new RecursoNoEncontradoException("No existe una carrera con el id: " + request.getCarreraId() + "")
         );
-        if (cursoRepository.existsByNombreCursoIgnoreCase(nombre)){
+        if (cursoRepository.existsByNombreIgnoreCase(nombre)){
             throw new ReglaNegocioException("Ya existe un curso con el nombre: " + nombre + "");
         }
-        if (cursoRepository.existsByCodigoCursoIgnoreCase(codigo)){
+        if (cursoRepository.existsByCodigoIgnoreCase(codigo)){
             throw new ReglaNegocioException("Ya existe un curso con el codigo: " + codigo + "");
         }
 
@@ -72,10 +72,10 @@ public class CursoServiceImpl implements CursoService {
                 () -> new RecursoNoEncontradoException("No existe una carrera con el id: " + request.getCarreraId() + "")
         );
 
-        if (cursoRepository.existsByNombreCursoIgnoreCaseAndIdCursoNot(nombre, aLong)){
+        if (cursoRepository.existsByNombreIgnoreCaseAndIdCursoNot(nombre, aLong)){
             throw new ReglaNegocioException("Ya existe un curso con el nombre: " + nombre + "");
         }
-        if (cursoRepository.existsByCodigoCursoIgnoreCaseAndIdCursoNot(codigo, aLong)){
+        if (cursoRepository.existsByCodigoIgnoreCaseAndIdCursoNot(codigo, aLong)){
             throw new ReglaNegocioException("Ya existe un curso con el codigo: " + codigo + "");
         }
         cursoMapper.actualizarEntidad(request, curso, carrera);
