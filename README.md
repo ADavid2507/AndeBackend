@@ -152,26 +152,3 @@ La colección de Postman debe exportarse en `/postman`. La colección y el PDF d
 | Segundo integrante — completar nombre | Estudiantes y matrículas; reglas RN-01 a RN-04; transacciones, anulación y evidencias de sus módulos |
 
 La integración, las consultas que dependen de varios módulos y la entrega final son responsabilidad conjunta. Esta distribución expresa el acuerdo de trabajo, no acredita la autoría de cada archivo.
-
-## Flujo Git y entrega
-
-El flujo solicitado es `feature/<funcionalidad>-<apellido>` hacia `develop`, mediante pull request revisado por el compañero, y posteriormente integración en `main`. Las correcciones utilizan `fix/<descripcion>-<apellido>` y la solicitud individual del examen utiliza `sc-<letra>-<apellido>`.
-
-Los mensajes de commit deben describir el cambio en español y utilizar los prefijos `feat`, `fix`, `refactor`, `test` o `docs`.
-
-Antes de entregar, comprobar:
-
-- [ ] Contrato HTTP y reglas del examen completos y demostrados.
-- [ ] Datos semilla completos en `datos_semilla.sql`.
-- [ ] Colección exportada en `/postman` y al menos dos pruebas automatizadas aprobadas.
-- [ ] PDF con evidencias de Swagger, casos de prueba, gráfico de ramas y contribuciones por autor.
-- [ ] Nombres completos de ambos integrantes y enlaces a sus aportes.
-- [ ] Al menos dos pull requests cerrados por integrante, con revisión del compañero.
-- [ ] Etiqueta `v1.0-unidad1` sobre el commit evaluado.
-- [ ] Rama individual de la solicitud de cambio con al menos tres commits distribuidos durante el examen.
-- [ ] README actualizado al estado final del proyecto.
-
-## Referencias
-
-- Guía del examen parcial de Lenguaje de Programación II, Unidad 1, versión A: caso EduAndes.
-- [PharmaDB](https://github.com/ADavid2507/PharmaDB), referencia de estructura e implementación por capas.
