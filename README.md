@@ -126,23 +126,11 @@ El conjunto requerido contiene:
 - Más de 20 créditos entre los cursos con vacantes de Ingeniería de Sistemas.
 - Seis estudiantes de al menos dos carreras, con al menos uno inactivo.
 
-Las matrículas y sus detalles se generan mediante la API durante la demostración. Los identificadores deben consultarse antes de las pruebas y no asumirse a partir del orden de inserción.
-
-El archivo `datos_semilla.sql` debe incorporarse al repositorio; no se encontró en la revisión de archivos realizada para este documento.
-
-## Pruebas y evidencias
-
-El proyecto contiene una prueba de carga del contexto, `AndeBackendApplicationTests.contextLoads`. No se ha confirmado que pase ni se han encontrado las dos pruebas funcionales automatizadas necesarias para completar la entrega.
-
 Para ejecutar las pruebas con Maven:
 
 ```shell
 mvn test
 ```
-
-La demostración debe cubrir los casos CP-01 a CP-13 de la guía: salud, duplicados, validaciones, referencias inexistentes, filtros, matrícula correcta, reglas RN-01 a RN-04, rollback, reporte y anulación. Debe conservarse evidencia de las respuestas HTTP y de las vacantes en la base de datos.
-
-La colección de Postman debe exportarse en `/postman`. La colección y el PDF de evidencias están pendientes de incorporarse o verificarse en el repositorio.
 
 ## Organización del equipo
 
