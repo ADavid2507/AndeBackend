@@ -196,4 +196,56 @@ public class MatriculaServiceImpl implements MatriculaService {
                 .toList();
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public MatriculaResponseDTO retirarCurso(Long matriculaId, Long cursoId) {
+        Matricula matricula = matriculaRepository.findById(matriculaId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Matrícula no encontrada con ID: " + matriculaId));
+
+        if (!EstadoMatricula.REGISTRADA.equals(matricula.getEstado())) {
+            log.warn("Intento de retirar curso en matrícula {} con estado {}", matriculaId, matricula.getEstado());
+            throw new ReglaNegocioException("Solo se pueden retirar cursos de una matrícula en estado REGISTRADA");
+        }
+
+        if (matricula.getDetalles() == null || matricula.getDetalles().size() <= 1) {
+            log.warn("Intento de dejar la matrícula {} sin cursos", matriculaId);
+            throw new ReglaNegocioException("No se puede retirar el curso: la matrícula no puede quedar sin cursos");
+        }
+
+        DetalleMatricula detalleARetirar = matricula.getDetalles().stream()
+                .filter(d -> d.getCurso() != null && d.getCurso().getIdCurso().equals(cursoId))
+                .findFirst()
+                .orElseThrow(() -> new RecursoNoEncontradoException("El curso con ID " + cursoId + " no se encuentra en la matrícula con ID " + matriculaId));
+
+        // SC-B: Devuelve la vacante
+        Curso curso = detalleARetirar.getCurso();
+        if (curso != null) {
+            int vacantesActuales = (curso.getVacantes() != null) ? curso.getVacantes() : 0;
+            curso.setVacantes(vacantesActuales + 1);
+            cursoRepository.save(curso);
+        }
+
+        // SC-B: orphanRemoval al remover de la colección
+        matricula.getDetalles().remove(detalleARetirar);
+
+        // SC-B: Recalcula créditos y monto en el servicio
+        int nuevoTotalCreditos = matricula.getDetalles().stream()
+                .mapToInt(d -> (d.getCreditos() != null ? d.getCreditos() : 0))
+                .sum();
+
+        BigDecimal nuevoMontoTotal = matricula.getDetalles().stream()
+                .map(DetalleMatricula::getCosto)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
+
+        matricula.setTotalCreditos(nuevoTotalCreditos);
+        matricula.setMontoTotal(nuevoMontoTotal);
+
+        Matricula guardada = matriculaRepository.save(matricula);
+        log.info("Curso {} retirado exitosamente de la matrícula {}. Nuevos créditos: {}, nuevo monto: {}",
+                cursoId, matriculaId, nuevoTotalCreditos, nuevoMontoTotal);
+
+        return matriculaMapper.toResponse(guardada);
+    }
 }
+

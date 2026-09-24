@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pe.edu.upeu.AndeBackend.dto.MatriculadosPorCursoDTO;
+import pe.edu.upeu.AndeBackend.dto.RecaudacionPorCarreraDTO;
 import pe.edu.upeu.AndeBackend.service.service.ReporteService;
 
 import java.util.List;
@@ -27,4 +28,12 @@ public class ReporteController {
         List<MatriculadosPorCursoDTO> reporte = reporteService.obtenerReporteMatriculadosPorCurso(periodo, carreraId);
         return ResponseEntity.ok(reporte);
     }
+
+    @GetMapping("/recaudacion-por-carrera")
+    public ResponseEntity<List<RecaudacionPorCarreraDTO>> obtenerReporteRecaudacionPorCarrera(
+            @RequestParam(name = "periodo", required = false) String periodo) {
+        List<RecaudacionPorCarreraDTO> reporte = reporteService.obtenerReporteRecaudacionPorCarrera(periodo);
+        return ResponseEntity.ok(reporte);
+    }
 }
+

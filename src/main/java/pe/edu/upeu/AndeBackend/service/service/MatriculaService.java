@@ -15,4 +15,7 @@ public interface MatriculaService{
     MatriculaResponseDTO obtenerPorId(Long id);
 
     List<MatriculaResponseDTO> listarTodas();
+
+    MatriculaResponseDTO retirarCurso(Long matriculaId, Long cursoId);
 }
+
