@@ -38,6 +38,10 @@ public class Curso {
     @Column(nullable = false)
     private Boolean estado;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private pe.edu.upeu.AndeBackend.enums.ModalidadCurso modalidad;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "carrera_id", nullable = false)
     private Carrera carrera;
@@ -54,7 +58,11 @@ public class Curso {
         if (estado == null) {
             estado = true;
         }
+        if (modalidad == null) {
+            modalidad = pe.edu.upeu.AndeBackend.enums.ModalidadCurso.PRESENCIAL;
+        }
     }
+
 
     @PreUpdate
     public void preUpdate() {

@@ -36,7 +36,11 @@ public class CursoRequestDTO {
     @NotNull(message = "El estado es obligatorio")
     private Boolean estado;
 
+    @NotNull(message = "La modalidad es obligatoria")
+    private pe.edu.upeu.AndeBackend.enums.ModalidadCurso modalidad;
+
     @NotNull(message = "La carrera es obligatoria")
     @Positive(message = "El id de la carrera debe ser mayor a 0")
     private Long carreraId;
 }
+

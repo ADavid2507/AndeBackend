@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upeu.AndeBackend.dto.EstudianteRequestDTO;
 import pe.edu.upeu.AndeBackend.dto.EstudianteResponseDTO;
+import pe.edu.upeu.AndeBackend.dto.MatriculaResponseDTO;
 import pe.edu.upeu.AndeBackend.service.service.EstudianteService;
 
 import java.util.List;
@@ -36,6 +37,13 @@ public class EstudianteController {
         return ResponseEntity.ok(estudianteService.read(id));
     }
 
+    @GetMapping("/{id}/matriculas")
+    public ResponseEntity<List<MatriculaResponseDTO>> obtenerHistorialMatriculas(
+            @PathVariable Long id,
+            @RequestParam(name = "periodo", required = false) String periodo) {
+        return ResponseEntity.ok(estudianteService.obtenerHistorialMatriculas(id, periodo));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<EstudianteResponseDTO> actualizar(
             @PathVariable Long id,
@@ -49,3 +57,4 @@ public class EstudianteController {
         return ResponseEntity.noContent().build();
     }
 }
+

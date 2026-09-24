@@ -13,7 +13,7 @@ import pe.edu.upeu.AndeBackend.service.service.CursoService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/curso")
+@RequestMapping({"/api/v1/cursos", "/api/v1/curso"})
 public class CursoController {
 
     private final CursoService cursoService;
@@ -27,10 +27,23 @@ public class CursoController {
         return ResponseEntity.ok(cursoService.readAll());
     }
 
+    @GetMapping("/buscar")
+    public ResponseEntity<List<CursoResponseDTO>> buscar(
+            @RequestParam(name = "nombre", required = false) String nombre,
+            @RequestParam(name = "carreraId", required = false) Long carreraId,
+            @RequestParam(name = "ciclo", required = false) Integer ciclo,
+            @RequestParam(name = "conVacantes", required = false) Boolean conVacantes,
+            @RequestParam(name = "modalidad", required = false) pe.edu.upeu.AndeBackend.enums.ModalidadCurso modalidad,
+            @RequestParam(name = "orden", required = false, defaultValue = "nombre") String orden,
+            @RequestParam(name = "dir", required = false, defaultValue = "asc") String dir) {
+        return ResponseEntity.ok(cursoService.buscar(nombre, carreraId, ciclo, conVacantes, modalidad, orden, dir));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<CursoResponseDTO> getCarreraById(Long id) {
+    public ResponseEntity<CursoResponseDTO> getCarreraById(@PathVariable Long id) {
         return ResponseEntity.ok(cursoService.read(id));
     }
+
 
     @PostMapping
     public ResponseEntity<CursoResponseDTO> create(@Valid @RequestBody CursoRequestDTO r){

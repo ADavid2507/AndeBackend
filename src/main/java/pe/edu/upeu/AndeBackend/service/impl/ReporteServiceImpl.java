@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.edu.upeu.AndeBackend.dto.MatriculadosPorCursoDTO;
+import pe.edu.upeu.AndeBackend.dto.RecaudacionPorCarreraDTO;
 import pe.edu.upeu.AndeBackend.repository.MatriculaRepository;
 import pe.edu.upeu.AndeBackend.service.service.ReporteService;
 
@@ -24,4 +25,12 @@ public class ReporteServiceImpl implements ReporteService {
         String periodoFiltro = (periodo != null && !periodo.trim().isEmpty()) ? periodo.trim() : null;
         return matriculaRepository.obtenerReporteMatriculadosPorCurso(periodoFiltro, carreraId);
     }
+
+    @Override
+    public List<RecaudacionPorCarreraDTO> obtenerReporteRecaudacionPorCarrera(String periodo) {
+        log.info("Generando reporte de recaudación por carrera para el periodo: '{}'", periodo);
+        String periodoFiltro = (periodo != null && !periodo.trim().isEmpty()) ? periodo.trim() : null;
+        return matriculaRepository.obtenerReporteRecaudacionPorCarrera(periodoFiltro);
+    }
 }
+

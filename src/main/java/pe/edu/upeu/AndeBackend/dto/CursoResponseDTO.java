@@ -19,8 +19,10 @@ public class CursoResponseDTO {
     private Integer ciclo;
     private Integer vacantes;
     private Boolean estado;
+    private pe.edu.upeu.AndeBackend.enums.ModalidadCurso modalidad;
     private Long carreraId;
     private String carreraNombre;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
 }
+

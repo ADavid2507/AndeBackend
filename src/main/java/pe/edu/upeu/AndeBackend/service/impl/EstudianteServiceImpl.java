@@ -6,13 +6,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.edu.upeu.AndeBackend.dto.EstudianteRequestDTO;
 import pe.edu.upeu.AndeBackend.dto.EstudianteResponseDTO;
+import pe.edu.upeu.AndeBackend.dto.MatriculaResponseDTO;
 import pe.edu.upeu.AndeBackend.entity.Carrera;
 import pe.edu.upeu.AndeBackend.entity.Estudiante;
 import pe.edu.upeu.AndeBackend.exception.RecursoNoEncontradoException;
 import pe.edu.upeu.AndeBackend.exception.ReglaNegocioException;
 import pe.edu.upeu.AndeBackend.mapper.EstudianteMapper;
+import pe.edu.upeu.AndeBackend.mapper.MatriculaMapper;
 import pe.edu.upeu.AndeBackend.repository.CarreraRepository;
 import pe.edu.upeu.AndeBackend.repository.EstudianteRepository;
+import pe.edu.upeu.AndeBackend.repository.MatriculaRepository;
 import pe.edu.upeu.AndeBackend.service.service.EstudianteService;
 
 import java.util.List;
@@ -26,6 +29,8 @@ public class EstudianteServiceImpl implements EstudianteService {
     private final EstudianteRepository estudianteRepository;
     private final CarreraRepository carreraRepository;
     private final EstudianteMapper estudianteMapper;
+    private final MatriculaRepository matriculaRepository;
+    private final MatriculaMapper matriculaMapper;
 
     @Override
     @Transactional
@@ -124,4 +129,21 @@ public class EstudianteServiceImpl implements EstudianteService {
         estudianteRepository.delete(estudiante);
         log.info("Estudiante eliminado exitosamente con ID: {}", id);
     }
+
+    @Override
+    public List<MatriculaResponseDTO> obtenerHistorialMatriculas(Long estudianteId, String periodo) {
+        if (!estudianteRepository.existsById(estudianteId)) {
+            log.warn("Consulta de historial fallida: estudiante no encontrado con ID: {}", estudianteId);
+            throw new RecursoNoEncontradoException("Estudiante no encontrado con ID: " + estudianteId);
+        }
+
+        String periodoFiltro = (periodo != null && !periodo.trim().isEmpty()) ? periodo.trim() : null;
+        log.info("Consultando historial de matrículas para estudiante ID: {} y periodo: '{}'", estudianteId, periodoFiltro);
+
+        return matriculaRepository.findByEstudianteIdAndPeriodoOrderByFechaDesc(estudianteId, periodoFiltro)
+                .stream()
+                .map(matriculaMapper::toResponse)
+                .toList();
+    }
 }
+

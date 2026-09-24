@@ -21,6 +21,7 @@ public class CursoMapper {
         c.setCiclo(r.getCiclo());
         c.setVacantes(r.getVacantes());
         c.setEstado(r.getEstado());
+        c.setModalidad(r.getModalidad() != null ? r.getModalidad() : pe.edu.upeu.AndeBackend.enums.ModalidadCurso.PRESENCIAL);
         c.setCarrera(carrera);
     }
     public CursoResponseDTO toResponse(Curso c) {
@@ -32,11 +33,12 @@ public class CursoMapper {
                 c.getCiclo(),
                 c.getVacantes(),
                 c.getEstado(),
-                c.getCarrera().getIdCarrera(),
-                c.getCarrera().getNombre(),
+                c.getModalidad(),
+                c.getCarrera() != null ? c.getCarrera().getIdCarrera() : null,
+                c.getCarrera() != null ? c.getCarrera().getNombre() : null,
                 c.getFechaCreacion(),
                 c.getFechaModificacion()
-
         );
     }
 }
+
