@@ -27,7 +27,7 @@ public class CursoController {
         return ResponseEntity.ok(cursoService.readAll());
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<CursoResponseDTO> getCarreraById(Long id) {
         return ResponseEntity.ok(cursoService.read(id));
     }
@@ -38,13 +38,13 @@ public class CursoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(c);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<CursoResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CursoRequestDTO r){
         CursoResponseDTO c = cursoService.update(id, r);
         return ResponseEntity.ok(c);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         cursoService.delete(id);
         return ResponseEntity.noContent().build();

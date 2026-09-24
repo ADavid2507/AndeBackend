@@ -27,7 +27,7 @@ public class CarreraController {
         return ResponseEntity.ok(carreraService.readAll());
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<CarreraResponseDTO> getCarreraById(Long id) {
         return ResponseEntity.ok(carreraService.read(id));
     }
@@ -38,13 +38,13 @@ public class CarreraController {
         return ResponseEntity.status(HttpStatus.CREATED).body(c);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<CarreraResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CarreraRequestDTO r){
         CarreraResponseDTO c = carreraService.update(id, r);
         return ResponseEntity.ok(c);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         carreraService.delete(id);
         return ResponseEntity.noContent().build();
