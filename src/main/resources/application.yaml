@@ -1,3 +1,6 @@
 spring:
   application:
     name: AndeBackend
+
+  profiles:
+    active: dev
