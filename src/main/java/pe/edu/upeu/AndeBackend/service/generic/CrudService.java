@@ -1,4 +1,15 @@
 package pe.edu.upeu.AndeBackend.service.generic;
 
-public interface CrudService {
+import java.util.List;
+
+public interface CrudService<REQ,RES, ID> {
+    RES create(REQ request);
+
+    RES update(ID id, REQ request);
+
+    RES read(ID id);
+
+    List<RES> readAll();
+
+    void delete(ID id);
 }
